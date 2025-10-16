@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;}
+    </style>
+
+<style>
+/* 静止→スライド→静止（3枚/18s） */
+@keyframes slideHold {
+  0%, 22%   { transform: translateX(0%); }      /* 1枚目 静止 4s */
+  33%       { transform: translateX(-100%); }   /* 1→2 2s */
+  55%       { transform: translateX(-100%); }   /* 2枚目 静止 4s */
+  66%       { transform: translateX(-200%); }   /* 2→3 2s */
+  88%       { transform: translateX(-200%); }   /* 3枚目 静止 4s */
+  100%      { transform: translateX(0%); }      /* 3→1 2s */
+}
+/* Tailwindの delay-200 と同義。ユーティリティが使えない場合は下を有効化 */
+/* .animate-slideHold { animation: slideHold 18s infinite ease-in-out; animation-delay: .2s; } */
+.animate-slideHold { animation: slideHold 18s infinite ease-in-out; }
+
+/* ドット同期（既存を使ってOK） */
+.dot { width:10px; height:10px; border-radius:9999px; background:#fff; box-shadow:0 0 0 1px rgba(255,255,255,.35) inset; }
+@keyframes dot1 { 0%,22%{opacity:.95;transform:scale(1.05);} 23%,100%{opacity:.45;transform:scale(1);} }
+@keyframes dot2 { 0%,32%{opacity:.45;} 33%,55%{opacity:.95;transform:scale(1.05);} 56%,100%{opacity:.45;} }
+@keyframes dot3 { 0%,65%{opacity:.45;} 66%,88%{opacity:.95;transform:scale(1.05);} 89%,100%{opacity:.45;} }
+.dot-1{ animation: dot1 18s infinite ease-in-out; }
+.dot-2{ animation: dot2 18s infinite ease-in-out; }
+.dot-3{ animation: dot3 18s infinite ease-in-out; }
+
+/* ドットにも同じ開始遅延（0.2s）を付与して完全同期 */
+.dot-delay { animation-delay: .2s !important; }
+
+</style>
+  
+</head>
+    <body class="bg-gray-50">
+       
+      <!-- ヘッダー -->
+<header class="sticky top-0 z-10 bg-white text-stone-600 shadow-md">
+  <input type="checkbox" id="menu-toggle" class="peer hidden" />
+
+  <div class="flex justify-between items-center px-4 py-4">
+    <!-- ロゴ -->
+    <div class="logo">
+      <a href="#" class="text-2xl font-medium">Mansion guide</a>
+    </div>
+
+    <!-- ハンバーガー -->
+    <label for="menu-toggle" class="md:hidden cursor-pointer" aria-label="メニューを開閉">
+      <div class="space-y-1">
+        <div class="w-6 h-0.5 bg-stone-700"></div>
+        <div class="w-6 h-0.5 bg-stone-700"></div>
+        <div class="w-6 h-0.5 bg-stone-700"></div>
+      </div>
+    </label>
+
+    <!-- デスクトップナビ -->
+    <nav class="hidden md:flex">
+      <ul class="flex space-x-6">
+        <li>
+          <a href="#home" class="relative hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">ホーム</a>
+        </li>
+        <li>
+          <a href="/company" class="relative hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">会社概要</a>
+        </li>
+        <li>
+          <a href="#services" class="relative hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">サービス</a>
+        </li>
+        <li>
+          <a href="#contact" class="hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">お問い合わせ</a>
+        </li>
+        <li>
+          <a href="#cta" class="bg-stone-600 text-white px-4 py-2 rounded hover:bg-stone-300 transition">無料で始める</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- モバイルメニュー -->
+  <nav class="hidden peer-checked:block md:hidden bg-stone-600 text-white">
+    <ul class="py-4">
+      <li>
+        <a href="#home" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">ホーム</a>
+      </li>
+      <li>
+        <a href="#about" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">会社概要</a>
+      </li>
+      <li>
+        <a href="#services" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">サービス</a>
+      </li>
+      <li>
+        <a href="#contact" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">お問い合わせ</a>
+      </li>
+      <li>
+        <a href="#cta" class="block mx-4 my-2 bg-white text-stone-600 px-4 py-2 rounded text-center hover:bg-stone-100 transition">無料で始める</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="relative min-h-[60vh] md:min-h-[78vh] overflow-hidden">
+  <!-- ① 下層：最初の静止画像（台紙） -->
+  <div class="absolute inset-0 -z-20 bg-gradient-to-r from-stone-700/50 via-stone-600/30 to-transparent">
+
+  <div class="flex h-full animate-slideHold will-change-transform">
+    <!-- 各スライド（幅を固定） -->
+    <div class="w-screen h-full flex-none flex items-center justify-center">
+      <img src="hero-wide.jpg" alt="外観1"
+           class="block w-full h-full object-cover object-center" />
+    </div>
+    
+    <!-- slide 2 -->
+    <div class="w-screen h-full flex-none flex items-center justify-center">
+      <img src="tower-r2.jpg" alt="外観2"
+           class="block w-full h-full object-cover object-center" />
+    </div>
+    
+    <!-- slide 3 -->
+    <div class="w-screen h-full flex-none flex items-center justify-center">
+      <img src="top2.jpg" alt="外観3"
+           class="block w-full h-full object-cover object-center" />
+    </div>
+  </div>
+  </div>
+
+  <!-- テキストはそのまま -->
+  <div class="container mx-auto px-4 md:px-6 h-[60vh] md:h-[78vh]">
+    <div class="flex items-center justify-start h-full">
+      <div class="max-w-xl text-left text-white space-y-3 md:space-y-5">
+        <h1 class="text-2xl md:text-4xl font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">
+          <span class="block md:hidden">高級マンション</span>
+          <span class="block md:hidden">&タワーマンション</span>
+          <span class="hidden md:inline">高級マンション&タワーマンション</span>
+        </h1>
+        <p class="text-lg md:text-2xl font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">売買・賃貸専門サイト</p>
+        <p class="text-sm md:text-base leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">マンションの売買・賃貸はマンションガイドにお任せください</p>
+        <div class="pt-4">
+          <a href="#contact" class="inline-flex items-center justify-center rounded-xl bg-white/15 hover:bg-white/25 px-6 py-3 text-white font-semibold ring-1 ring-white/40 transition">お問い合わせ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ドット（スライドと同じ遅延で同期） -->
+  <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+    <span class="dot dot-1 dot-delay"></span>
+    <span class="dot dot-2 dot-delay"></span>
+    <span class="dot dot-3 dot-delay"></span>
+  </div>
+</section>
+
+<!-- 画像の先読み（チラつき軽減。ファイル名は実物に合わせて） -->
+<link rel="preload" as="image" href="hero-wide.jpg">
+<link rel="preload" as="image" href="tower-r2.jpg">
+<link rel="preload" as="image" href="top2.jpg">
+
+
+<!-- エリアから探す -->
+<section id="areas" class="py-10">
+  <div class="container mx-auto px-4">
+
+
+    <!-- セクションヘッダー -->
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-1.5 h-6 bg-stone-700 rounded"></div>
+      <h2 class="text-xl md:text-2xl font-semibold text-stone-800">エリアから探す</h2>
+    </div>
+
+    <!-- ===== 旧東海道通り ===== -->
+    <div class="mb-10">
+      <label class="flex items-center gap-2 mb-3 text-stone-700">
+        <input type="checkbox" class="size-4 accent-stone-600" />
+        <span class="font-medium">旧東海道通り</span>
+      </label>
+
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="b-tower.jpg"alt="タワーマンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">港区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ブラウドタワー川崎</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="rumino.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">川崎区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ルミノ港町</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="roiyal.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">宮前区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ロイヤルガーデンタワー</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="gres.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">幸区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">杜の街グレースタワー</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ===== 市役所通り ===== -->
+    <div class="mb-10">
+      <label class="flex items-center gap-2 mb-3 text-stone-700">
+        <input type="checkbox" class="size-4 accent-stone-600" />
+        <span class="font-medium">市役所通り</span>
+      </label>
+
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="tower-r.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">中原区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ボルスター中原タワーレジデンス</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="tama.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">多摩区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ロイヤルガーデン多摩</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="marunouchi.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">丸の内区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ロイヤルガーデン丸の内</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+          <div class="aspect-[4/3]">
+            <img src="senniti.jpg"alt="マンション"class="w-full h-full object-cover block">
+          </div>
+          <div class="p-3">
+            <p class="text-xs text-stone-500">西区</p>
+            <h3 class="mt-1 font-semibold text-stone-800 truncate">ライオンズタワー千日前</h3>
+            <dl class="mt-2 text-xs text-stone-500 space-y-1">
+              <div class="flex justify-between"><dt>交通</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>築年月</dt><dd>・・・・</dd></div>
+              <div class="flex justify-between"><dt>総階数</dt><dd>・・・・</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="mt-4 text-right">
+      <a href="/faq" class="inline-flex items-center gap-1 text-stone-600 hover:text-stone-300 underline underline-offset-2">
+        その他のエリアを探す
+        <span aria-hidden="true">›</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 売却や賃貸の知識を学びたい -->
+<section class="py-10">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-1.5 h-6 bg-stone-700 rounded"></div>
+      <h2 class="text-xl md:text-2xl font-semibold text-stone-800">売却や賃貸の知識を学びたい</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- カード1 -->
+      <article class="flex gap-4 bg-white rounded-lg border border-stone-200/70 p-4 shadow-sm">
+        <!-- アイコン -->
+        <div class="shrink-0 size-14 rounded bg-stone-100 grid place-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-[#2e9d95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M9 21h6m-6-6h6" />
+          </svg>
+        </div>
+      
+        <!-- テキスト -->
+        <div class="min-w-0">
+          <h3 class="font-semibold text-stone-800">マンション売却の基礎知識</h3>
+          <p class="mt-1 text-sm text-stone-600 line-clamp-2">川崎市に適した査定観点を解説。相場や価格決定の基準、税金やスケジュール、戸建と異なるポイントを押さえましょう。</p>
+        </div>
+      </article>
+      
+
+      <!-- カード2 -->
+      <article class="flex gap-4 bg-white rounded-lg border border-stone-200/70 p-4 shadow-sm">
+        <!-- アイコン -->
+        <div class="shrink-0 size-14 rounded bg-stone-100 grid place-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-[#2e9d95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a5 5 0 11-6 0 5 5 0 016 0zM10 14l-2 2m0 0l-2 2m2-2h4" />
+          </svg>
+        </div>
+      
+        <div class="min-w-0">
+          <h3 class="font-semibold text-stone-800">マンション賃貸の基礎知識</h3>
+          <p class="mt-1 text-sm text-stone-600 line-clamp-2">賃料設定の考え方、募集〜入居〜更新・解約までの流れ、原状回復や敷金精算などオーナー実務をわかりやすく解説。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 売却の実績（4カード同サイズ） -->
+<section class="py-10">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-1.5 h-6 bg-stone-700 rounded"></div>
+      <h2 class="text-xl md:text-2xl font-semibold text-stone-800">売却の実績</h2>
+    </div>
+
+    <!-- 同サイズカードのグリッド -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- card -->
+      <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+        <div class="aspect-[4/3]">
+          <img src="rionztawer-ekimae.jpg"alt="マンション"class="w-full h-full object-cover block">
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <p class="text-xs text-stone-500">2025/06/01</p>
+          <h3 class="mt-1 font-semibold text-stone-800 line-clamp-2">ライオンズタワー駅前</h3>
+          <div class="mt-auto pt-3 text-right group">
+            <a href="#"class="relative text-sm text-stone-600 hover:text-stone-300 transition">続きを読む
+              <span class="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-stone-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- card -->
+      <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+        <div class="aspect-[4/3]">
+          <img src="b-tower.jpg"alt="タワーマンション"class="w-full h-full object-cover block">
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <p class="text-xs text-stone-500">2025/06/01</p>
+          <h3 class="mt-1 font-semibold text-stone-800 line-clamp-2">ブラウドタワー川崎</h3>
+          <div class="mt-auto pt-3 text-right group">
+            <a href="#"class="relative text-sm text-stone-600 hover:text-stone-300 transition">続きを読む
+              <span class="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-stone-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- card -->
+      <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+        <div class="aspect-[4/3]">
+          <img src="garden-tamagawa.jpg"alt="マンション"class="w-full h-full object-cover block">
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <p class="text-xs text-stone-500">2025/06/01</p>
+          <h3 class="mt-1 font-semibold text-stone-800 line-clamp-2">ロイヤルガーデン多摩川</h3>
+          <div class="mt-auto pt-3 text-right group">
+            <a href="#"class="relative text-sm text-stone-600 hover:text-stone-300 transition">続きを読む
+              <span class="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-stone-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- card -->
+      <article class="bg-white rounded-lg border border-stone-200/70 shadow-sm hover:shadow-md transition overflow-hidden">
+        <div class="aspect-[4/3]">
+          <img src="g-tower.jpg"alt="マンション"class="w-full h-full object-cover block">
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <p class="text-xs text-stone-500">2025/06/01</p>
+          <h3 class="mt-1 font-semibold text-stone-800 line-clamp-2">グレースタワー新川崎</h3>
+          <div class="mt-auto pt-3 text-right group">
+            <a href="#"class="relative text-sm text-stone-600 hover:text-stone-300 transition">続きを読む
+              <span class="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-stone-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ③ お知らせ・スタッフブログ -->
+<section class="py-10">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-1.5 h-6 bg-stone-700 rounded"></div>
+      <h2 class="text-xl md:text-2xl font-semibold text-stone-800">お知らせ・スタッフブログ</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- ポスト1 -->
+      <article class="flex gap-4 bg-white rounded-lg border border-stone-200/70 p-4 shadow-sm">
+        <div class="shrink-0 size-14 rounded bg-stone-100 grid place-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#2e9d95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H2v6h4l5 4V5zM15 9a5 5 0 010 6" />
+          </svg>
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="inline-flex items-center rounded border border-stone-300 px-2 py-0.5 text-stone-600">カテゴリ</span>
+            <time class="text-stone-500">2025/10/01</time>
+          </div>
+          <h3 class="mt-1 font-semibold text-stone-800 truncate">重要なお知らせ</h3>
+          <p class="mt-1 text-sm text-stone-600 line-clamp-2">新サービススタート！エリアで検索ができるようになりました。</p>
+        </div>
+      </article>
+      
+
+      <!-- ポスト2 -->
+      <article class="flex gap-4 bg-white rounded-lg border border-stone-200/70 p-4 shadow-sm">
+        <div class="shrink-0 size-14 rounded bg-stone-100 grid place-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#2e9d95]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h6m-6 4h8m-2 4l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-6l-4 4z" />
+          </svg>          
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="inline-flex items-center rounded border border-stone-300 px-2 py-0.5 text-stone-600">カテゴリ</span>
+            <time class="text-stone-500">2025/08/05</time>
+          </div>
+          <h3 class="mt-1 font-semibold text-stone-800 truncate">駅前マンションの売買</h3>
+          <p class="mt-1 text-sm text-stone-600 line-clamp-2">売り出して1ヶ月で売却決定！駅前の需要が高まっています。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- よくある質問 -->
+<section id="faq" class="py-10">
+  <div class="container mx-auto px-4">
+    <!-- 見出し -->
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-1.5 h-6 bg-stone-700 rounded"></div>
+      <h2 class="text-xl md:text-2xl font-semibold text-stone-800">よくある質問</h2>
+    </div>
+
+    <div class="space-y-4">
+      <!-- item 1 -->
+      <details class="group bg-white border border-stone-200/80 rounded-lg shadow-sm open:shadow-md">
+        <summary class="list-none cursor-pointer p-4 flex items-start gap-3">
+          <span class="mt-0.5 inline-flex items-center justify-center size-6 rounded bg-stone-100 text-stone-600 text-sm font-semibold">Q</span>
+          <h3 class="text-stone-800 font-medium">どれぐらいの期間で売却できますか。</h3>
+          <span class="ml-auto text-stone-400 transition group-open:rotate-180">▼</span>
+        </summary>
+        <div class="px-4 pb-4 pl-13 md:pl-[3.75rem] text-stone-600">
+          おおよそ3ヶ月から6ヶ月で売却できます。
+        </div>
+      </details>
+
+      <!-- item 2 -->
+      <details class="group bg-white border border-stone-200/80 rounded-lg shadow-sm">
+        <summary class="list-none cursor-pointer p-4 flex items-start gap-3">
+          <span class="mt-0.5 inline-flex items-center justify-center size-6 rounded bg-stone-100 text-stone-600 text-sm font-semibold">Q</span>
+          <h3 class="text-stone-800 font-medium">
+            オンラインでの相談や見積りはできますか。
+          </h3>
+          <span class="ml-auto text-stone-400 transition group-open:rotate-180">▼</span>
+        </summary>
+        <div class="px-4 pb-4 pl-13 md:pl-[3.75rem] text-stone-600">
+          可能です。オンラインの後、見学などは実際にマンションを見ていただきたいです。
+        </div>
+      </details>
+
+      <!-- item 3 -->
+      <details class="group bg-white border border-stone-200/80 rounded-lg shadow-sm">
+        <summary class="list-none cursor-pointer p-4 flex items-start gap-3">
+          <span class="mt-0.5 inline-flex items-center justify-center size-6 rounded bg-stone-100 text-stone-600 text-sm font-semibold">Q</span>
+          <h3 class="text-stone-800 font-medium">
+            駅前のマンションの相場はいくらぐらいですか。ファミリーで住む予定です。
+          </h3>
+          <span class="ml-auto text-stone-400 transition group-open:rotate-180">▼</span>
+        </summary>
+        <div class="px-4 pb-4 pl-13 md:pl-[3.75rem] text-stone-600">
+          駅前のマンションの相場は7000万円から1億円ぐらいです。駅前のマンションは人気で、価格が高いです。
+        </div>
+      </details>
+
+      <!-- item 4 -->
+      <details class="group bg-white border border-stone-200/80 rounded-lg shadow-sm">
+        <summary class="list-none cursor-pointer p-4 flex items-start gap-3">
+          <span class="mt-0.5 inline-flex items-center justify-center size-6 rounded bg-stone-100 text-stone-600 text-sm font-semibold">Q</span>
+          <h3 class="text-stone-800 font-medium">
+            賃貸物件は取り扱っていますか。
+          </h3>
+          <span class="ml-auto text-stone-400 transition group-open:rotate-180">▼</span>
+        </summary>
+        <div class="px-4 pb-4 pl-13 md:pl-[3.75rem] text-stone-600">
+          取り扱っています。賃貸物件の場合は、賃料や敷金、礼金などの条件をお伝えいただきます。
+        </div>
+      </details>
+    </div>
+
+    <!-- 右下リンク -->
+    <div class="mt-4 text-right">
+      <a href="/faq" class="inline-flex items-center gap-1 text-stone-600 hover:text-stone-300 underline underline-offset-2">
+        その他の質問を見る
+        <span aria-hidden="true">›</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- フッター -->
+<footer class="mt-12">
+  <!-- 上部フッター：ナビ -->
+  <div class="bg-stone-300 text-stone-800">
+    <div class="container mx-auto px-4 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 左側 -->
+        <div>
+          <h3 class="font-semibold mb-4">マンションガイド</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white">会社概要</a></li>
+            <li><a href="#" class="hover:text-white">個人情報保護方針</a></li>
+          </ul>
+        </div>
+
+        <!-- 右側 -->
+        <div>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white">マンションを選ぶ</a></li>
+            <li><a href="#" class="hover:text-white">売却・賃貸の実績</a></li>
+            <li><a href="#" class="hover:text-white">スタッフブログ</a></li>
+            <li><a href="#" class="hover:text-white">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- コピーライト -->
+  <div class="bg-stone-600 text-white">
+    <div class="container mx-auto px-4 py-4 text-center text-xs">© マンションガイド, Inc.</div>
+  </div>
+</footer>
+
+
+    
+
+</body>
+</html>

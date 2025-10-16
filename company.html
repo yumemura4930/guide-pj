@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;}
+    </style>
+</head>
+    <body class="bg-gray-50">
+
+         <!-- ヘッダー -->
+<header class="sticky top-0 bg-white text-stone-600 shadow-md">
+    <input type="checkbox" id="menu-toggle" class="peer hidden" />
+  
+    <div class="flex justify-between items-center px-4 py-4">
+      <!-- ロゴ -->
+      <div class="logo">
+        <a href="#" class="text-2xl font-medium">Mansion guide</a>
+      </div>
+  
+      <!-- ハンバーガー -->
+      <label for="menu-toggle" class="md:hidden cursor-pointer" aria-label="メニューを開閉">
+        <div class="space-y-1">
+          <div class="w-6 h-0.5 bg-stone-700"></div>
+          <div class="w-6 h-0.5 bg-stone-700"></div>
+          <div class="w-6 h-0.5 bg-stone-700"></div>
+        </div>
+      </label>
+  
+      <!-- デスクトップナビ -->
+      <nav class="hidden md:flex">
+        <ul class="flex space-x-6">
+          <li>
+            <a href="#home" class="relative hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">ホーム</a>
+          </li>
+          <li>
+            <a href="#about" class="relative hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">会社概要</a>
+          </li>
+          <li>
+            <a href="#services" class="relative hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">サービス</a>
+          </li>
+          <li>
+            <a href="#contact" class="hover:text-stone-300 transition after:content-['▼'] after:ml-1 after:text-xs">お問い合わせ</a>
+          </li>
+          <li>
+            <a href="#cta" class="bg-stone-600 text-white px-4 py-2 rounded hover:bg-stone-300 transition">無料で始める</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  
+    <!-- モバイルメニュー -->
+    <nav class="hidden peer-checked:block md:hidden bg-stone-600 text-white">
+      <ul class="py-4">
+        <li>
+          <a href="#home" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">ホーム</a>
+        </li>
+        <li>
+          <a href="#about" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">会社概要</a>
+        </li>
+        <li>
+          <a href="#services" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">サービス</a>
+        </li>
+        <li>
+          <a href="#contact" class="block px-4 py-2 hover:bg-stone-700 transition after:content-['▼'] after:ml-1 after:text-xs">お問い合わせ</a>
+        </li>
+        <li>
+          <a href="#cta" class="block mx-4 my-2 bg-white text-stone-600 px-4 py-2 rounded text-center hover:bg-stone-100 transition">
+            無料で始める
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="bg-white">
+
+    <!-- パンくず（ヘッダー直下） -->
+    <nav aria-label="breadcrumb" class="bg-stone-300/80 text-stone-700">
+      <div class="container mx-auto px-4 md:px-6">
+        <ol class="flex flex-wrap items-center gap-2 py-3 text-sm">
+          <li><a href="/" class="hover:underline">マンションガイド</a></li>
+          <li class="opacity-70">›</li>
+          <li aria-current="page" class="font-medium">会社概要</li>
+        </ol>
+      </div>
+    </nav>
+  
+    <!-- ページタイトル -->
+    <section class="py-10 md:py-14">
+      <div class="container mx-auto px-4 md:px-6 text-center">
+        <h1 class="text-2xl md:text-3xl font-bold text-stone-700 tracking-wide">会社概要</h1>
+        <p class="mt-4 text-stone-600">
+          所在地、事業内容、会社の基本情報をご紹介します。
+        </p>
+      </div>
+    </section>
+  
+    <!-- 会社情報（ボーダーで区切った行レイアウト） -->
+    <section class="pb-10 md:pb-14">
+      <div class="container mx-auto px-4 md:px-6">
+        <div class="mx-auto w-full md:w-11/12 lg:w-4/5">
+          <dl class="divide-y divide-stone-200 border-t border-b border-stone-200">
+  
+            <!-- 企業名 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">企業名</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">
+                株式会社マンション・コーポレーション
+                <div class="text-stone-500 text-sm">CORPORATION LTD.</div>
+              </dd>
+            </div>
+  
+            <!-- 所在地 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">所在地</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">
+                神奈川県川崎市川崎区駅前本町26-1
+                <div>
+                  <a href="#map" class="inline-flex items-center gap-1 text-stone-600 hover:text-stone-900 underline underline-offset-2">
+                    地図を見る <span aria-hidden="true">›</span>
+                  </a>
+                </div>
+              </dd>
+            </div>
+  
+            <!-- 設立 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">設立</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">2024年10月</dd>
+            </div>
+  
+            <!-- 資本金 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">資本金</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">10,000,000円</dd>
+            </div>
+  
+            <!-- 従業員数 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">従業員数</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">
+                56名（2025年9月現在）
+              </dd>
+            </div>
+  
+            <!-- 役員一覧 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">役員一覧</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">代表取締役社長：山田　花子</dd>
+            </div>
+  
+            <!-- 事業内容 -->
+            <div class="grid grid-cols-12 gap-4 py-6">
+              <dt class="col-span-12 md:col-span-3 text-stone-600 font-medium">事業内容</dt>
+              <dd class="col-span-12 md:col-span-9 text-stone-800">
+                <ol class="list-decimal pl-5 space-y-1">
+                  <li>マンションの賃貸仲介</li>
+                  <li>駅近郊の高級不動産の売買仲介</li>
+                  <li>企画・管理など不動産に関する総合コンサルティング業務</li>
+                </ol>
+              </dd>
+            </div>
+  
+          </dl>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 地図 -->
+    <section id="map" class="pb-16">
+      <div class="container mx-auto px-4 md:px-6">
+        <h2 class="text-center text-xl md:text-2xl font-semibold tracking-widest text-stone-700 mb-6">地　図</h2>
+  
+        <!-- 差し替え：GoogleMap埋め込み or 画像 -->
+        <div class="mx-auto w-full md:w-11/12 lg:w-4/5">
+          <div class="aspect-[16/9] rounded-lg overflow-hidden border border-stone-200 shadow-sm">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3246.930174154825!2d139.69538297578103!3d35.530723172636165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018609890e3ed7d%3A0x22040aba299d1f0f!2z44CSMjEwLTAwMDcg56We5aWI5bed55yM5bed5bSO5biC5bed5bSO5Yy66aeF5YmN5pys55S677yS77yW!5e0!3m2!1sja!2sjp!4v1759988837214!5m2!1sja!2sjp"
+              width="600"
+              height="450"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              class="w-full h-full"
+            ></iframe>
+          </div>
+          
+            <!-- <img src="assets/img/map.jpg" alt="本社アクセスマップ" class="w-full h-full object-cover rounded-lg"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5Z"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- お問い合わせ促進帯（フッターの上） -->
+    <section class="bg-stone-300 text-stone-800">
+      <div class="container mx-auto px-4 md:px-6 py-6 flex flex-col md:flex-row items-center gap-4 justify-between">
+        <p class="text-sm md:text-base">ご相談やご不明な点などは、お気軽にお問い合わせください。</p>
+        <a href="/#contact"
+           class="inline-flex items-center justify-center rounded-lg bg-white text-stone-600 px-5 py-2.5 font-medium ring-1 ring-white hover:bg-stone-100 transition">
+          お問い合わせはこちら
+        </a>
+      </div>
+    </section>
+  
+  </main>
+  
+  
+  <!-- フッター -->
+<footer class="mt-12">
+    <!-- 上部フッター：ナビ -->
+    <div class="bg-stone-300 text-stone-800">
+      <div class="container mx-auto px-4 py-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- 左側 -->
+          <div>
+            <h3 class="font-semibold mb-4">マンションガイド</h3>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-white">会社概要</a></li>
+              <li><a href="#" class="hover:text-white">個人情報保護方針</a></li>
+            </ul>
+          </div>
+  
+          <!-- 右側 -->
+          <div>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-white">マンションを選ぶ</a></li>
+              <li><a href="#" class="hover:text-white">売却・賃貸の実績</a></li>
+              <li><a href="#" class="hover:text-white">スタッフブログ</a></li>
+              <li><a href="#" class="hover:text-white">お問い合わせ</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- コピーライト -->
+    <div class="bg-stone-600 text-white">
+      <div class="container mx-auto px-4 py-4 text-center text-xs">© マンションガイド, Inc.</div>
+    </div>
+  </footer>
+  
+  
+      
+  
+  </body>
+  </html>
